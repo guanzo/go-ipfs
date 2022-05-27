@@ -64,6 +64,7 @@ func GatewayOption(writable bool, paths ...string) ServeOption {
 		const ACEHeadersName = "Access-Control-Expose-Headers"
 		const ACAOriginName = "Access-Control-Allow-Origin"
 		const ACAMethodsName = "Access-Control-Allow-Methods"
+		const TAOriginName = "Timing-Allow-Origin"
 
 		if _, ok := headers[ACAOriginName]; !ok {
 			// Default to *all*
@@ -72,6 +73,10 @@ func GatewayOption(writable bool, paths ...string) ServeOption {
 		if _, ok := headers[ACAMethodsName]; !ok {
 			// Default to GET
 			headers[ACAMethodsName] = []string{http.MethodGet}
+		}
+		if _, ok := headers[TAOriginName]; !ok {
+			// Default to *all*
+			headers[TAOriginName] = []string{"*"}
 		}
 
 		headers[ACAHeadersName] = cleanHeaderSet(
